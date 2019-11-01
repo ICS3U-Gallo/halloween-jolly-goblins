@@ -107,7 +107,7 @@ def draw_play():
         for i in range(PUMPKIN_COUNT):
 
 
-            pumpkin = arcade.Sprite("images/pumpkin", PUMPKIN_SCALING)
+            pumpkin = arcade.Sprite("images/pumpkin.jpg", PUMPKIN_SCALING)
 
             pumpkin.center_x = random.randrange(WIDTH)
             pumpkin.center_y = random.randrange(HEIGHT)
@@ -143,7 +143,7 @@ def draw_play():
 
     def draw_scare(self):
         arcade.start_render()
-        arcade.draw_texture_rectangle(WIDTH/2, HEIGHT/2, WIDTH, HEIGHT, 'images/skeleton')
+        arcade.draw_texture_rectangle(WIDTH/2, HEIGHT/2, WIDTH, HEIGHT, 'images/skeleton.jpg')
 
 
 
