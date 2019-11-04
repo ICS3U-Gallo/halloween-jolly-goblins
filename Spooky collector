@@ -1,0 +1,116 @@
+
+import arcade
+
+PUMPKIN_COUNT = 0
+my_button = [0, 0, 800, 600]
+
+WIDTH = 800
+HEIGHT = 600
+TITLE = "Spooky Collection"
+
+current_screen = "menu"
+
+
+def on_draw():
+    arcade.start_render()
+    if current_screen == "menu":
+        draw_menu()
+    elif current_screen == "instructions":
+        draw_instructions()
+    elif current_screen == "play":
+        draw_play()
+
+
+def on_key_press(key, modifiers):
+    global current_screen
+
+    if current_screen == "menu":
+        menu_keybinds(key, modifiers)
+    elif current_screen == "instructions":
+        instructions_keybinds(key, modifiers)
+    elif current_screen == "play":
+        play_keybinds(key, modifiers)
+
+
+def menu_keybinds(key, modifiers):
+    global current_screen
+    if key == arcade.key.I:
+        current_screen = "instructions"
+    elif key == arcade.key.P:
+        current_screen = "play"
+    elif key == arcade.key.ESCAPE:
+        exit()
+
+
+def instructions_keybinds(key, modifiers):
+    global current_screen
+    if key == arcade.key.ESCAPE:
+        current_screen = "menu"
+
+
+def play_keybinds(key, modifiers):
+    global current_screen
+    if key == arcade.key.ESCAPE:
+        current_screen = "menu"
+
+
+def draw_menu():
+    arcade.set_background_color(arcade.color.BLACK)
+    arcade.draw_text("Spooky Collector", WIDTH/2, HEIGHT/2,
+                     arcade.color.ORANGE, font_size=30, anchor_x="center")
+    arcade.draw_text("I for Instructions", WIDTH/2, HEIGHT/2-60,
+                     arcade.color.ORANGE, font_size=20, anchor_x="center")
+    arcade.draw_text("P to Play", WIDTH/2, HEIGHT/2-90,
+                     arcade.color.ORANGE, font_size=20, anchor_x="center")
+
+
+def draw_instructions():
+    arcade.set_background_color(arcade.color.BLACK)
+    arcade.draw_text("Instructions", WIDTH/2, HEIGHT/2,
+                     arcade.color.ORANGE, font_size=30, anchor_x="center")
+    arcade.draw_text("Click to collect a pumpkin", WIDTH/2, HEIGHT/2-60,
+                     arcade.color.ORANGE, font_size=20, anchor_x="center")
+
+
+def draw_play():
+    arcade.start_render()
+    arcade.draw_xywh_rectangle_filled(my_button[0], my_button[1], my_button[2], my_button[3], arcade.color.BLACK)
+    arcade.draw_text("You have " + str(PUMPKIN_COUNT) + " pumpkins", WIDTH/2, HEIGHT/2-150,
+                     arcade.color.ORANGE, font_size=20, anchor_x="center")
+    texture = arcade.load_texture("images/pumpkin.jpg")
+    scale = .5
+    arcade.draw_texture_rectangle(400, 300, scale * texture.width,
+                                  scale * texture.height, texture, 0)
+
+
+def on_mouse_press(x, y, dx, dy):
+    global PUMPKIN_COUNT
+    my_button_x, my_button_y, my_button_w, my_button_h = my_button
+
+    if (x > my_button_x and x < my_button_x + my_button_w and y > my_button_y and y < my_button_y + my_button_h):
+        PUMPKIN_COUNT += 1
+
+
+def on_mouse_motion(self, x, y):
+    self.player_sprite.center_x = x
+    self.player_sprite.center_y = y
+
+
+def update(self):
+    pass
+
+
+def setup():
+    arcade.open_window(WIDTH, HEIGHT, "Spooky Collector")
+    arcade.set_background_color(arcade.color.BLACK)
+    arcade.schedule(update, 1 / 60)
+    window = arcade.get_window()
+    window.on_draw = on_draw
+    window.on_key_press = on_key_press
+    window.on_mouse_motion = on_mouse_motion
+    window.on_mouse_press = on_mouse_press
+    arcade.run()
+
+
+if __name__ == '__main__':
+    setup()
